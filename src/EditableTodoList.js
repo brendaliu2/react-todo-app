@@ -1,6 +1,6 @@
 import React from "react";
 import EditableTodo from "./EditableTodo";
-import { v4 as uuid } from "uuid";
+
 
 /** Show list of editable todos.
  *
@@ -12,11 +12,11 @@ import { v4 as uuid } from "uuid";
  * TodoApp -> EditableTodoList -> [ EditableTodo, ... ]
  */
 
-function EditableTodoList({todos, update, remove}) {
+function EditableTodoList({ todos, update, remove }) {
   return (
-      <div>
-        {todos.map(todo => <EditableTodo update={update} remove={remove} todo = {todo} /> )}
-      </div>
+    <div>
+      {todos.map(todo => <EditableTodo key={todo.id} update={update} remove={remove} todo={todo} />)}
+    </div>
   );
 }
 

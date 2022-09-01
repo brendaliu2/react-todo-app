@@ -14,14 +14,14 @@ import TodoForm from "./TodoForm";
  */
 
 function EditableTodo({ todo, update, remove, create }) {
-  
+
   const [isEditing, setIsEditing] = useState(false);
-  
+
 
   /** Toggle if this is being edited */
   function toggleEdit() {
-    setIsEditing(curr => !curr)
-    console.log('isEditing', isEditing);
+    setIsEditing(curr => !curr);
+
   }
   /** Call remove fn passed to this. */
   function handleDelete() {
@@ -30,20 +30,18 @@ function EditableTodo({ todo, update, remove, create }) {
 
   /** Edit form saved; toggle isEditing and update in ancestor. */
   function handleSave(formData) {
-    //if new create, other update
-    //if !formData.id
-    if (!formData.id) {
-      create(formData);
-    } else {
-      update(formData);
-      setIsEditing(curr => false)
-    }
+    
+    update(formData);
+    setIsEditing(curr => false);
+
   }
 
   return (
-    <div className="EditableTodo" key={todo.id}>
+    <div className="EditableTodo">
 
-      {isEditing === true ? <TodoForm handleSave={handleSave} initialFormData={todo} /> :
+      {isEditing === true ? <TodoForm
+        handleSave={handleSave}
+        initialFormData={todo} /> :
         <div className="mb-3">
           <div className="float-end text-sm-end">
             <button
@@ -63,33 +61,6 @@ function EditableTodo({ todo, update, remove, create }) {
             description={todo.description}
             priority={todo.priority} />
         </div>}
-
-      {/* {isEditing &&
-        <TodoForm handleSave={handleSave} initialFormData={todo} />
-      }
-
-      {!isEditing &&
-        <div className="mb-3">
-          <div className="float-end text-sm-end">
-            <button
-              className="EditableTodo-toggle btn-link btn btn-sm"
-              onClick={toggleEdit}>
-              Edit
-            </button>
-            <button
-              className="EditableTodo-delBtn btn-link btn btn-sm text-danger"
-              onClick={handleDelete}>
-              Del
-            </button>
-          </div>
-          <Todo
-            key={todo.id}
-            title={todo.title}
-            description={todo.description}
-            priority={todo.priority} />
-        </div>
-      } */}
-
     </div>
   );
 }
