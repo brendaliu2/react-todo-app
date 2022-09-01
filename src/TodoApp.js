@@ -15,11 +15,12 @@ import EditableTodoList from "./EditableTodoList";
  * App -> TodoApp -> { TodoForm, EditableTodoList }
  */
 
-function TodoApp() {
+function TodoApp({initialTodos}) {
 
-  const [todos, setTodos] = useState([]);
+  const [todos, setTodos] = useState(initialTodos);
   /** add a new todo to list */
   function create(newTodo) {
+    setTodos()
   }
 
   /** update a todo with updatedTodo */
@@ -53,7 +54,7 @@ function TodoApp() {
           (if no top todo, omit this whole section)
           <section className="mb-4">
             <h3>Top Todo</h3>
-            <TopTodo />
+            <TopTodo todos={todos} />
           </section>
 
           <section>
