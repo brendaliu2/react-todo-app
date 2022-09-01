@@ -8,15 +8,20 @@ import TodoForm from "./TodoForm";
  * - todo
  * - update(): fn to call to update a todo
  * - remove(): fn to call to remove a todo
+ * - create(): fn to call to create a todo
  *
  * EditableTodoList -> EditableTodo -> { Todo, TodoForm }
  */
 
-function EditableTodo({ todo, update, remove }) {
-  let isEditing = false;
+function EditableTodo({ todo, update, remove, create }) {
+  
+  const [isEditing, setIsEditing] = useState(false);
+  
+
   /** Toggle if this is being edited */
   function toggleEdit() {
-    isEditing = !isEditing;
+    setIsEditing(curr => !curr)
+    console.log('isEditing', isEditing);
   }
   /** Call remove fn passed to this. */
   function handleDelete() {
@@ -25,15 +30,41 @@ function EditableTodo({ todo, update, remove }) {
 
   /** Edit form saved; toggle isEditing and update in ancestor. */
   function handleSave(formData) {
-    update(formData);
-    isEditing = false;
+    //if new create, other update
+    //if !formData.id
+    if (!formData.id) {
+      create(formData);
+    } else {
+      update(formData);
+      setIsEditing(curr => false)
+    }
   }
 
   return (
-    <div className="EditableTodo">
+    <div className="EditableTodo" key={todo.id}>
 
+      {isEditing === true ? <TodoForm handleSave={handleSave} initialFormData={todo} /> :
+        <div className="mb-3">
+          <div className="float-end text-sm-end">
+            <button
+              className="EditableTodo-toggle btn-link btn btn-sm"
+              onClick={toggleEdit}>
+              Edit
+            </button>
+            <button
+              className="EditableTodo-delBtn btn-link btn btn-sm text-danger"
+              onClick={handleDelete}>
+              Del
+            </button>
+          </div>
+          <Todo
+            key={todo.id}
+            title={todo.title}
+            description={todo.description}
+            priority={todo.priority} />
+        </div>}
 
-      {isEditing &&
+      {/* {isEditing &&
         <TodoForm handleSave={handleSave} initialFormData={todo} />
       }
 
@@ -52,11 +83,12 @@ function EditableTodo({ todo, update, remove }) {
             </button>
           </div>
           <Todo
+            key={todo.id}
             title={todo.title}
             description={todo.description}
             priority={todo.priority} />
         </div>
-      }
+      } */}
 
     </div>
   );
