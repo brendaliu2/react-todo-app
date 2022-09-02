@@ -44,32 +44,38 @@ describe("adding todos", function() {
   it("can add a new todo", function () {
     const { container } = render(<TodoApp />);
 
-    // no boxes yet
+    // no todos yet
     expect(container).toContainHTML("You have no todos.")
 
     addTodo(container);
 
-    // expect to see a box
+    // expect to see a todo
     const todo = container.querySelector(".TodoApp");
     expect(todo).toBeInTheDocument();
   });
 })
 
 
-// describe("editing todos", function () {
-//   it("can edit a todo", function () {
-//     const { container, debug } = render(<TodoApp />);
-//     addTodo(container);
-//     debug(container)
-//     // editTodo(container);
+describe("editing todos", function () {
+  it("can edit a todo", function () {
+    const { container } = render(<TodoApp />);
+    addTodo(container);
 
-//     // expect(container).toContainHTML("testTodoEdited")
-//   });
+    editTodo(container);
 
-  // it("matches snapshot after removing box", function () {
-  //   const { container } = render(<BoxList />);
-  //   addBox(container);
-  //   fireEvent.click(container.querySelector(".Box-removeBtn"));
-  //   expect(container).toMatchSnapshot();
-  // })
-// })
+    expect(container).toContainHTML("testTodoEdited")
+  });
+})
+
+describe("removing todos", function () {
+  it("can remove a todo", function () {
+    const { container } = render(<TodoApp />);
+    
+    addTodo(container);
+    
+    const deletebutton = container.querySelector(".Delete");
+    fireEvent.click(deletebutton);
+    
+    expect(container).toContainHTML("You have no todos.")
+  });
+})
