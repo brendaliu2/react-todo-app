@@ -8,12 +8,12 @@ import TodoForm from "./TodoForm";
  * - todo
  * - update(): fn to call to update a todo
  * - remove(): fn to call to remove a todo
- * - create(): fn to call to create a todo
+
  *
  * EditableTodoList -> EditableTodo -> { Todo, TodoForm }
  */
 
-function EditableTodo({ todo, update, remove, create }) {
+function EditableTodo({ todo, update, remove }) {
 
   const [isEditing, setIsEditing] = useState(false);
 
@@ -25,32 +25,37 @@ function EditableTodo({ todo, update, remove, create }) {
   }
   /** Call remove fn passed to this. */
   function handleDelete() {
-    remove(todo.id);
+    return remove(todo.id);
   }
 
   /** Edit form saved; toggle isEditing and update in ancestor. */
   function handleSave(formData) {
-    
-    update(formData);
-    setIsEditing(curr => false);
+
+
+    update({ id: todo.id, ...formData });
+    setIsEditing(false);
 
   }
 
   return (
     <div className="EditableTodo">
 
-      {isEditing === true ? <TodoForm
+      {isEditing ? <TodoForm
         handleSave={handleSave}
-        initialFormData={todo} /> :
+        initialFormData={{
+          title: todo.title,
+          description: todo.description,
+          priority: todo.priority
+        }} /> :
         <div className="mb-3">
           <div className="float-end text-sm-end">
             <button
-              className="EditableTodo-toggle btn-link btn btn-sm"
+              className="EditableTodo-toggle btn-link btn btn-sm Edit"
               onClick={toggleEdit}>
               Edit
             </button>
             <button
-              className="EditableTodo-delBtn btn-link btn btn-sm text-danger"
+              className="EditableTodo-delBtn btn-link btn btn-sm text-danger Delete"
               onClick={handleDelete}>
               Del
             </button>

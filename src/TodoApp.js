@@ -27,14 +27,11 @@ function TodoApp({ initialTodos }) {
   }
 
   /** update a todo with updatedTodo */
+
   function update(updatedTodo) {
-    setTodos(todos => todos.map(({ id, title, description, priority }) => {
-      if (updatedTodo.id === id) {
-        title = updatedTodo.title;
-        description = updatedTodo.description;
-        priority = updatedTodo.priority;
-      }
-      return { id, title, description, priority };
+
+    setTodos(todos => todos.map((todo) => {
+      return updatedTodo.id === todo.id ? updatedTodo : todo
     }));
 
   }
@@ -62,12 +59,11 @@ function TodoApp({ initialTodos }) {
 
         <div className="col-md-6">
           <section className="mb-4">
-            {todos.length > 0 ?
+            {todos.length > 0 &&
               <div>
                 <h3>Top Todo</h3>
                 <TopTodo todos={todos} />
-              </div> :
-              ""}
+              </div> }
 
           </section>
 
